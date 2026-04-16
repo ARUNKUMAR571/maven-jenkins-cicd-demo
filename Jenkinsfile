@@ -91,19 +91,19 @@ pipeline {
 }
 
     stage('Deploy (Run Container)') {
-      steps {
-        echo "Deploying Docker container..."
-        sh '''
-          docker stop maven-demo || true
-          docker rm maven-demo || true
+  steps {
+    echo "Deploying Docker container..."
+    sh """
+      docker stop maven-demo || true
+      docker rm maven-demo || true
 
-          docker run -d --name maven-demo '"$IMAGE_NAME"':'"$BUILD_NUMBER"'
+      docker run -d --name maven-demo ${IMAGE_NAME}:${BUILD_NUMBER}
 
-          sleep 3
-          docker logs maven-demo
-        '''
-      }
-    }
+      sleep 3
+      docker logs maven-demo
+    """
+  }
+}
 
     stage('Cleanup') {
       steps {
