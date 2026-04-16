@@ -117,17 +117,15 @@ pipeline {
     }
   }
 
-  post {
+ post {
     success {
-      echo "✅ Build ${env.BUILD_NUMBER} completed successfully!"
+        echo "✅ Build ${env.BUILD_NUMBER} completed successfully!"
     }
     failure {
-      echo "❌ Build ${env.BUILD_NUMBER} failed!"
+        echo "❌ Build ${env.BUILD_NUMBER} failed!"
     }
     always {
-      node {
         cleanWs()
-      }
     }
-  }
+}
 }
