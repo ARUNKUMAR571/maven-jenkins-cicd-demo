@@ -73,22 +73,22 @@ pipeline {
       }
     }
 
-    stage('DockerHub Login & Push') {
-      steps {
-        withCredentials([usernamePassword(
-          credentialsId: 'docker_creds',
-          usernameVariable: 'DOCKER_USER',
-          passwordVariable: 'DOCKER_PASS'
-        )]) {
+   stage('DockerHub Login & Push') {
+  steps {
+    withCredentials([usernamePassword(
+      credentialsId: 'docker_creds',
+      usernameVariable: 'DOCKER_USER',
+      passwordVariable: 'DOCKER_PASS'
+    )]) {
 
-          sh '''
-            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-            docker push '"$IMAGE_NAME"':'"$BUILD_NUMBER"'
-            docker logout
-          '''
-        }
-      }
+      sh """
+        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+        docker push ${IMAGE_NAME}:${BUILD_NUMBER}
+        docker logout
+      """
     }
+  }
+}
 
     stage('Deploy (Run Container)') {
       steps {
